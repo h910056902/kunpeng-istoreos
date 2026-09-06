@@ -13,17 +13,17 @@ LUCI_CACHE="/tmp/luci-indexcache* /tmp/luci-modulecache"
 
 # 清单: key|标题|route|a53文件|x86文件|iStore元数据名|描述
 MANIFEST='
-kms|KMS 服务器|vlmcsd|KMS_a53.run|KMS_x86.run|vlmcsd|KMS 激活服务器（Windows/Office 系统激活）
-nps|NPS 内网穿透|nps|NPS_a53.run|NPS_x86.run|nps|nps 内网穿透客户端
-openclash|OpenClash|openclash|OpenClash_*_core.run|OpenClash_*_core.run|openclash|多协议代理客户端（含 Clash 内核）
-openvpn-client|OpenVPN 客户端|openvpn|OpenVPN_2021*.run|OpenVPN_x86.run|openvpn|OpenVPN 客户端
-openvpn-server|OpenVPN 服务端|openvpn|OpenVPN-Server_a53.run|OpenVPN-Server_x86.run|openvpn|OpenVPN 服务端
-adguardhome|AdGuard Home|adguardhome|adguardhome.run|adguardhome.run|adguardhome|全网广告拦截与 DNS 服务
-mosdns|MosDNS|mosdns|mosdns_*_aarch64_a53*.run|mosdns_*_x86_64*.run|mosdns|DNS 分流 / 去广告
-unblockneteasemusic|云音乐解锁|unblockneteasemusic|unblockneteasemusic.run|unblockneteasemusic.run|unblockneteasemusic|解除网易云音乐灰色歌曲限制
-ssr-plus|SSR-Plus|ssr-plus|SSR-Plus_*_aarch64*.run|SSR-Plus_*_x86_64*.run|ssr-plus|代理客户端（勿与 PassWall 同装）
-passwall|PassWall|passwall|PassWall_*_aarch64*.run|PassWall_*_x86_64*.run|passwall|代理客户端（勿与 SSR-Plus 同装）
-passwall2|PassWall2|passwall2|PassWall2_*_aarch64*.run|PassWall2_*_x86_64*.run|passwall2|代理客户端
+kms|KMS 服务器|admin/services/vlmcsd|KMS_a53.run|KMS_x86.run|vlmcsd|KMS 激活服务器（Windows/Office 系统激活）
+nps|NPS 内网穿透|admin/services/nps|NPS_a53.run|NPS_x86.run|nps|nps 内网穿透客户端
+openclash|OpenClash|admin/services/openclash|OpenClash_*_core.run|OpenClash_*_core.run|openclash|多协议代理客户端（含 Clash 内核）
+openvpn-client|OpenVPN 客户端|admin/services/openvpn|OpenVPN_2021*.run|OpenVPN_x86.run|openvpn|OpenVPN 客户端
+openvpn-server|OpenVPN 服务端|admin/services/openvpn|OpenVPN-Server_a53.run|OpenVPN-Server_x86.run|openvpn|OpenVPN 服务端
+adguardhome|AdGuard Home|admin/services/adguardhome|adguardhome.run|adguardhome.run|adguardhome|全网广告拦截与 DNS 服务
+mosdns|MosDNS|admin/services/mosdns|mosdns_*_aarch64_a53*.run|mosdns_*_x86_64*.run|mosdns|DNS 分流 / 去广告
+unblockneteasemusic|云音乐解锁|admin/services/unblockneteasemusic|unblockneteasemusic.run|unblockneteasemusic.run|unblockneteasemusic|解除网易云音乐灰色歌曲限制
+ssr-plus|SSR-Plus|admin/services/ssr-plus|SSR-Plus_*_aarch64*.run|SSR-Plus_*_x86_64*.run|ssr-plus|代理客户端（勿与 PassWall 同装）
+passwall|PassWall|admin/services/passwall|PassWall_*_aarch64*.run|PassWall_*_x86_64*.run|passwall|代理客户端（勿与 SSR-Plus 同装）
+passwall2|PassWall2|admin/services/passwall2|PassWall2_*_aarch64*.run|PassWall2_*_x86_64*.run|passwall2|代理客户端
 '
 
 arch_dir() {
