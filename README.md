@@ -1,112 +1,133 @@
-# 鲲鹏路由器 · iStoreOS 化（软件层面）
+# 鲲鹏路由器 · 一键 iStoreOS 化 + 商店美化增强
 
-**iStoreOS 化**＝在**不刷 iStoreOS 整机固件**的前提下，把现有 **OpenWrt / 鲲鹏无限等类 OpenWrt** 系统，一键装上与 [gl-inet-onescript](https://github.com/wukongdaily/gl-inet-onescript) 同源的 **iStore 商店、Argon 主题、Quickstart、文件传输** 等，使 Web 管理界面与使用习惯**接近 iStoreOS**（组件化风格化，不是更换发行版）。
+> **一句话介绍**：不刷机、不改固件，通过一个 Shell 脚本 + 一组 Python 补丁，让你的 **鲲鹏无限（NROS）** 或其它 OpenWrt 路由器拥有 **iStore 商店、Argon 主题**，并顺手修好原生「应用中心」在线安装的一堆坑。
 
-本仓库仅保留 **`kunpeng-istore.sh`**，并去掉 GL‑iNet 机型专用的换源、风扇、分区等逻辑，便于 **鲲鹏无限** 或其它第三方 OpenWrt 固件使用。
+- 仓库地址：<https://github.com/h910056902/kunpeng-istoreos>
+- 适用设备：鲲鹏无限 NROS（如 192.168.66.1），以及其它类 OpenWrt 固件
+- 难度：会 SSH 登录路由器即可，全程复制粘贴
 
-**NROS 搞机速查**（SSH 入口、主题页、App Center 路径、官方 `src/gz` 源）：见根目录 **`搞机手册.md`**。
+---
 
-## 前置条件
+## 一、这套东西能干什么
 
-- 已开启 SSH，使用 **root** 登录。
-- 路由器可访问外网（需拉取 `istore.linkease.com`、`raw.githubusercontent.com` 或 `mt3000.netlify.app` 等）。
-- `opkg` 可用；建议先配置好与你固件 **架构一致** 的官方或镜像软件源。
-- 脚本会**自动尝试安装** curl/wget、证书链、LuCI 与本地 IPK 常见依赖，并对 `opkg update` 做**约 30 分钟节流**。仅补依赖可执行：`sh kunpeng-istore.sh deps`。已手动更新源时可设：`KP_SKIP_OPKG_UPDATE=1`。
+| 模块 | 效果 |
+|---|---|
+| `kunpeng-istore.sh` 一键脚本 | 安装 iStore 商店、Argon 主题、Quickstart、文件传输，让界面和使用习惯接近 iStoreOS（**不是刷 iStoreOS 固件**，只是装组件） |
+| iStore 商店「极光」主题 | 暗色玻璃风格 CSS 覆盖层，替换默认界面 |
+| 应用中心在线安装修复 | 原生「应用中心 → 在线应用」点安装时：显示真实进度、失败原因、可重试，不再静默失败 |
+| 依赖预检 | 装不上的应用直接标「不兼容」并说明缺什么依赖，不浪费你时间 |
+| 安装自动注册 | 从在线应用装好的程序，**自动出现在原生商店「已安装」列表**，带图标、可打开、可卸载 |
+| 列表优化 | 在线应用支持分类筛选、按更新时间排序、不兼容的沉底显示 |
 
-## 使用方式
+改造思路源自 [wukongdaily/gl-inet-onescript](https://github.com/wukongdaily/gl-inet-onescript)（GL-iNet 版），本仓库去掉了 GL 机型专用逻辑，适配鲲鹏无限等第三方固件。
 
-### SSH 一行命令（推荐：等同全功能一键 `one`）
+---
 
-把下面**整行**里的 `脚本URL` 换成你托管的 `kunpeng-istore.sh` 的 **HTTPS 直链**（需可被路由器 wget/curl 访问，例如 GitHub **raw**、jsDelivr、Gitee raw、自建静态站）。用 **root** SSH 登录路由器后粘贴回车即可，无需先把文件拷进路由器：
+## 二、准备工作
+
+1. 路由器已开启 SSH，能以 **root** 登录（鲲鹏无限默认地址 `192.168.66.1`）。
+2. 路由器能上网（需访问 `istore.linkease.com`、`raw.githubusercontent.com` 等）。
+3. `opkg` 可用，建议先配好与固件**架构一致**的软件源。
+
+> NROS 的 SSH 入口、主题页、App Center 路径、官方源等速查信息，见根目录 **`搞机手册.md`**。
+
+---
+
+## 三、怎么用（三选一）
+
+### 方式 1：SSH 一行命令（推荐，最简单）
+
+用 root SSH 登录路由器，把下面整行粘贴执行（先把 `脚本URL` 换成 `kunpeng-istore.sh` 的 HTTPS 直链，例如你自己的 GitHub raw 地址）：
 
 ```sh
 (wget -T 45 -qO- '脚本URL' || curl -fsSL --connect-timeout 20 --max-time 120 '脚本URL') | sh -s one
 ```
 
-**示例（把 `用户名` / `仓库名` / 分支改成你的）**：
+URL 示例（把 `用户名/仓库名` 换成你自己的）：
 
 - GitHub raw：`https://raw.githubusercontent.com/用户名/仓库名/main/kunpeng-istore.sh`
 - jsDelivr：`https://cdn.jsdelivr.net/gh/用户名/仓库名@main/kunpeng-istore.sh`
 
-国内若 raw 较慢，可在 URL 前加镜像前缀（自行替换为当前可用的 ghproxy 类地址）。
+脚本执行完，浏览器打开 `http://<路由器IP>/cgi-bin/luci/` 即可看到新界面。
 
-**路由器上已有一份脚本时**，可拉最新再一键（与上面管道效果相同）：
+### 方式 2：Windows 一键推送（PuTTY）
 
-```sh
-sh /root/kunpeng-istore.sh remote 'https://raw.githubusercontent.com/用户名/仓库名/main/kunpeng-istore.sh'
-# 或
-KP_SCRIPT_URL='https://...' sh /root/kunpeng-istore.sh remote
-```
-
-### Windows：PuTTY 一键推送到鲲鹏（默认 192.168.66.1）
-
-在同一局域网内的 **Windows** 上安装 [PuTTY](https://www.putty.org/)（含 `plink.exe`、`pscp.exe`）后，在仓库目录打开 **PowerShell**：
+适合不想手敲 SSH 命令的 Windows 用户。在同一局域网的电脑上装好 [PuTTY](https://www.putty.org/)（含 `plink.exe`、`pscp.exe`），在仓库目录打开 PowerShell：
 
 ```powershell
-.\ssh-deploy-kunpeng.ps1
+.\ssh-deploy-kunpeng.ps1              # 上传脚本并执行一键安装
+.\ssh-deploy-kunpeng.ps1 -Action deps # 只补依赖
+$env:KP_ROUTER_PASS='你的密码'; .\ssh-deploy-kunpeng.ps1  # 指定密码（默认依次尝试 password / admin）
 ```
 
-默认依次尝试 root 密码 **`password`**、**`admin`**，上传 `kunpeng-istore.sh` 到路由器并执行 **`sh /tmp/kunpeng-istore.sh one`**（一键 iStoreOS 化）。仅补依赖：
+### 方式 3：本地拷贝再运行
 
-```powershell
-.\ssh-deploy-kunpeng.ps1 -Action deps
-```
-
-指定密码（避免脚本里写死）：`$env:KP_ROUTER_PASS='你的密码'; .\ssh-deploy-kunpeng.ps1`
-
-> 说明：云端环境无法访问你家 `192.168.66.1`，需在你**本机**运行上述脚本；首次连接会用 `echo y |` 接受 SSH 主机指纹。
-
-### 本地拷贝再运行
-
-将本仓库中的 `kunpeng-istore.sh` 拷贝到路由器（例如放到 `/root/`），执行：
+把 `kunpeng-istore.sh` 拷到路由器（如 `/root/`）：
 
 ```sh
-chmod +x /root/kunpeng-istore.sh
-sh /root/kunpeng-istore.sh
+sh /root/kunpeng-istore.sh            # 交互菜单（首次运行会注册 kp 命令，之后直接输 kp）
+sh /root/kunpeng-istore.sh one        # 非交互一键安装
+KP_ARGON_PRESET=purple sh /root/kunpeng-istore.sh one   # 可选：紫色 Argon 皮肤
 ```
 
-- 不带参数：进入 **交互菜单**；首次运行会尝试把脚本复制为 **`/usr/bin/kp`**，之后可在 shell 里直接输入 `kp`。
-- 非交互一键（与管道 `sh -s one` 相同）：
+---
+
+## 四、应用中心增强补丁（patches/ 目录）
+
+上面的脚本装好 iStore 后，如果还想修复/增强**原生应用中心**的在线安装功能，按需在**本机**运行以下 Python 补丁（会自动 SSH 到路由器打补丁；路由器密码建议用环境变量 `ROUTER_PW` 传入，不要写死）：
+
+| 补丁 | 干什么 | 说明 |
+|---|---|---|
+| `istore-aurora-v1.css` | iStore 商店换「极光」暗色皮肤 | 部署到 `/www/luci-static/istore/` |
+| `fix_install_backend.py` | 修后端 | 安装接口返回真实结果，新增进度轮询和安装前预检接口 |
+| `fix_install_frontend.py` | 修前端 | 安装按钮显示进度/失败原因，支持重试 |
+| `build_depcache.py` | 建依赖缓存 | 解析 opkg 索引，算出哪些应用当前架构装得上 |
+| `patch_list_depcache.py` | 列表预检 | 装不上的应用标「不兼容」+ 缺依赖原因，且沉底排序 |
+| `patch_backend_tags.py` | 列表增强 | 在线列表接口补充分类 `tags`、更新时间 `time` 字段 |
+| `patch_register.py` | **自动注册** | 在线装好的应用自动进原生商店「已安装」列表，带图标和入口 |
+| `patch_ver_fix.py` | 修版本号 | 注册时从 opkg 输出正确解析版本号 |
+| `e2e_full_flow.py` | 端到端测试 | 安装 → 轮询 → 注册 → 卸载 → 移除，全链路自检 |
+
+**自动注册的原理**（给想看懂的人）：原生商店的应用列表来自 `ubus appcenter list`，而通过 iStore 在线安装的 `app-meta-*` 包并不在其中。补丁在后端把 `opkg list-installed` 中的已装 `app-meta-*` 与 iStore 在线缓存（`/tmp/istore_online_cache.json`）合并进列表；对未注册到 ubus 的应用，本地处理卸载/打开动作；图标自动从 iStore CDN 下载到 `/www/luci-static/nradio/images/icon/online-<pkg>.png`。
+
+> ⚠️ 已知限制：部分缓存写在路由器的 `/tmp`，**重启后会丢失**（如依赖预检缓存），重跑对应补丁脚本即可恢复。
+
+---
+
+## 五、常见问题
+
+**Q：改了 Lua 之后页面没变化？**
+LuCI 有模块缓存，SSH 上去清一下再刷新：
 
 ```sh
-sh /root/kunpeng-istore.sh one
-# 或
-sh /root/kunpeng-istore.sh install
+rm -rf /tmp/luci-modulecache /tmp/luci-indexcache
 ```
 
-紫色 Argon 观感（可选，与默认「官方 Argon 模板蓝紫」不同）：
+**Q：WAN 口入站会被放开吗？**
+不会自动放开。上游脚本默认放开 WAN 入站，本仓库改成了**交互询问（可选）**，降低误暴露风险。
 
-```sh
-KP_ARGON_PRESET=purple sh /root/kunpeng-istore.sh one
+**Q：Argon 装完观感和预期不一样？**
+脚本会写入 `/etc/config/argon`，默认对齐 [luci-app-argon-config](https://github.com/jerrykuku/luci-app-argon-config) 官方默认值；LuCI 大版本、DPI、厂商魔改仍可能造成视觉差异。
+
+---
+
+## 六、目录速览
+
+```
+├── kunpeng-istore.sh          # 一键 iStoreOS 化脚本（核心）
+├── ssh-deploy-kunpeng.ps1     # Windows 一键推送脚本
+├── sync-opkg-offline-from-pc.ps1  # opkg 离线源同步
+├── 搞机手册.md                # NROS 速查手册（SSH/路径/源）
+├── patches/                   # 应用中心增强补丁（见第四节表格）
+├── assets/                    # 离线应用/恢复辅助脚本
+├── openwrt/                   # 静态主题资源（css/js）
+└── router_backup/             # 路由器配置备份
 ```
 
-一行远程并带紫色预设（注意 `export`，否则管道内子 shell 可能读不到变量）：
+---
 
-```sh
-export KP_ARGON_PRESET=purple; (wget -T 45 -qO- '脚本URL' || curl -fsSL '脚本URL') | sh -s one
-```
+## 致谢
 
-完成后用浏览器打开 LuCI（地址一般为 `http://<LAN_IP>/cgi-bin/luci/`，若厂商使用 **8080** 等端口请自行替换）。
-
-## 说明与致谢
-
-- **主题与文件传输 IPK**：优先从 **[gl-inet-onescript 仓库 theme / luci-app-filetransfer 的 GitHub raw](https://github.com/wukongdaily/gl-inet-onescript)** 下载（与仓库内文件同源），失败再回退 `mt3000.netlify.app`（与上游 `gl-inet.sh` 一致）。**aarch64** 仍会优先用上游预置依赖 IPK，其它架构从当前 `opkg` 源补齐依赖。
-- **「像素级」对齐**：脚本在安装 Argon 后写入 `/etc/config/argon`（默认与 [jerrykuku/luci-app-argon-config](https://github.com/jerrykuku/luci-app-argon-config) 官方默认一致）；对 Quickstart 追加与 gl-inet 同意图的 CSS，并尽量 `force-reinstall` 首页相关包。LuCI 大版本、DPI、厂商魔改仍可能造成视觉差分。
-- **一键将 WAN 入站改为 ACCEPT** 与上游默认行为类似，但本脚本改为 **可选**（交互询问），以降低误暴露风险。
-- 核心思路与资源归属：**[wukongdaily/gl-inet-onescript](https://github.com/wukongdaily/gl-inet-onescript)**；iStore 见 **[linkease/istore](https://github.com/linkease/istore)**。
-
-## 原生应用中心（App Center）美化与在线商店增强
-
-针对 NROS 自带的应用中心（`/cgi-bin/luci/nradioadv/system/appcenter`）与 iStore 商店（`/cgi-bin/luci/admin/store`）的增强，全部改动集中在 `patches/` 目录，按需执行（路由器密码建议用环境变量 `ROUTER_PW` 传入）：
-
-| 脚本 | 作用 |
-|---|---|
-| `patches/istore-aurora-v1.css` + 部署逻辑 | iStore 商店「极光」暗色玻璃风格覆盖层 |
-| `patches/fix_install_backend.py` / `fix_install_frontend.py` | 修复在线安装：后端真实返回执行结果、前端轮询进度/失败原因/重试 |
-| `patches/patch_backend_tags.py` | 在线列表接口补充 `tags` / `time` 字段 |
-| `patches/build_depcache.py` + `patch_list_depcache.py` | 依赖可安装性预检：装不上的应用直接标「不兼容」并给出缺依赖原因 |
-| `patches/patch_register.py` + `patch_ver_fix.py` | **在线安装的应用自动注册进原生商店**：出现在「已安装」列表，带图标、入口路由、支持打开/卸载 |
-| `patches/e2e_full_flow.py` | 端到端回归：安装 → 轮询 → 注册 → 卸载 → 移除 全链路验证 |
-
-注册机制说明：原生商店列表来自 `ubus appcenter list`，在线安装的包不会出现在其中。补丁在 `action_app_list_data` 里把 `opkg list-installed` 中已装的 `app-meta-*` 包与 iStore 在线仓库元数据（`/tmp/istore_online_cache.json`）合并进列表，并对未注册到 ubus 的应用本地处理卸载/打开动作，图标自动从 iStore CDN 下载到 `/www/luci-static/nradio/images/icon/online-<pkg>.png`。
-
+- 核心思路与资源：[wukongdaily/gl-inet-onescript](https://github.com/wukongdaily/gl-inet-onescript)
+- iStore：[linkease/istore](https://github.com/linkease/istore)
+- Argon 主题：[jerrykuku/luci-app-argon-config](https://github.com/jerrykuku/luci-app-argon-config)
