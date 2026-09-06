@@ -119,6 +119,19 @@ python areuok_plugin.py e2e                  # 端到端自检：安装→验证
 
 已验证：`kms`（已装场景）与 `unblockneteasemusic`（全新安装 + 自动补依赖场景）端到端全部 PASS，包括商店内一键卸载。
 
+### NROS 固件 LuCI 页面 404 兼容（menu.d 垫片）
+
+⚠️ **NROS 固件的 LuCI dispatcher 不支持 menu.d（view 类型）应用**，因此 Are-u-ok 里 `luci-app-unblockneteasemusic`、以及固件上其他 menu.d 应用（frpc/frps/ddns-go 等）安装后页面都会 404。本仓库为网易云插件提供了经典 Lua/CBI 垫片：
+
+```bash
+cd patches
+python unm_luci_shim.py   # 部署经典控制器，恢复「服务 → 云音乐解锁」页面
+```
+
+垫片内容见 `patches/unm_luci_shim/`（controller.lua + model.lua，CBI 配置页支持启用开关、音源、替换策略、端口、劫持方式等，保存后自动重启服务）。网易云插件额外步骤：装完需在页面里**勾选「启用服务」**（上游默认 `enable=0` 不会自启）。
+
+**手机端使用方法**：手机连上路由器 WiFi 后，把代理设为 `192.168.66.1:5200`（HTTP）；或在浏览器打开 `http://192.168.66.1:5200/proxy.pac` 按说明配置。之后播放网易云音乐灰色/无损歌曲即可走解锁通道。
+
 ---
 
 ## 五、常见问题
