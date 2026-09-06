@@ -94,6 +94,33 @@ KP_ARGON_PRESET=purple sh /root/kunpeng-istore.sh one   # 可选：紫色 Argon 
 
 ---
 
+## 五、Are-u-ok 插件接入（AUK9527 仓库一键装）
+
+[Are-u-ok](https://github.com/AUK9527/Are-u-ok) 是 iStore 生态知名的 .run 自解压插件合集（PassWall、OpenClash、KMS、AdGuard Home 等）。本仓库提供 `patches/areuok_plugin.py`，把它的插件**一键装进鲲鹏原生应用商店**：安装后自动登记、带图标出现在「已安装」列表、可直接在商店里卸载。
+
+```bash
+cd patches
+python areuok_plugin.py list                 # 列出可安装的 11 个插件
+python areuok_plugin.py install kms          # 一键安装（自动下载 .run → 安装 → 注册进商店）
+python areuok_plugin.py status               # 查看已装清单
+python areuok_plugin.py uninstall kms        # 卸载并从商店注销
+python areuok_plugin.py e2e                  # 端到端自检：安装→验证→商店卸载→验证
+```
+
+可用插件：`kms`、`nps`、`openclash`、`openvpn-client`、`openvpn-server`、`adguardhome`、`mosdns`、`unblockneteasemusic`、`ssr-plus`、`passwall`、`passwall2`
+
+工作机制（给想看懂的人）：
+
+1. `patches/kp-areuok.sh` 部署到路由器 `/usr/bin/kp-areuok`，负责按架构（`apps/all` = aarch64，`x86/all` = x86_64）从 GitHub raw 下载 .run（支持 `AREUOK_MIRROR` 加速前缀），执行 makeself 自解压安装。
+2. 安装后把插件信息写入 `/etc/areuok_registry.list`（**持久化，重启不丢**）。
+3. 商店后端新增 `areuok_installed_merge`：把注册表里仍处于已安装状态的插件合并进原生商店列表（图标优先复用 iStore 在线缓存）；卸载动作分发到 `kp-areuok uninstall`。
+
+说明：卸载只移除插件本体的 ipk，`.run` 安装过程中自动补的依赖（如 node）会保留，避免误伤其他程序；PassWall 与 SSR-Plus 勿同时安装（上游说明）。
+
+已验证：`kms`（已装场景）与 `unblockneteasemusic`（全新安装 + 自动补依赖场景）端到端全部 PASS，包括商店内一键卸载。
+
+---
+
 ## 五、常见问题
 
 **Q：改了 Lua 之后页面没变化？**
@@ -111,7 +138,7 @@ rm -rf /tmp/luci-modulecache /tmp/luci-indexcache
 
 ---
 
-## 六、目录速览
+## 七、目录速览
 
 ```
 ├── kunpeng-istore.sh          # 一键 iStoreOS 化脚本（核心）
