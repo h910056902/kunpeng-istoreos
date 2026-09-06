@@ -1,0 +1,341 @@
+/* ============================================================
+ * NRadio C2000 — Liquid Glass v5 (SAFE overlay)
+ * Loaded AFTER istore-theme.css — only overrides visuals
+ * NEVER touches: margin, padding, position, display,
+ *                 width, height, overflow, float, z-index
+ * ============================================================ */
+
+/* === GLOBAL DARK === */
+html { background-color: #06080f !important; }
+body {
+  background-color: #06080f !important;
+  color: rgba(255,255,255,0.92) !important;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif !important;
+  font-size: 12.5px !important;
+}
+
+/* === HEADER === */
+header {
+  background: rgba(8,12,22,0.8) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+}
+header::after { display: none !important; }
+
+/* === NAVIGATION === */
+.item.flex-col { color: rgba(255,255,255,0.58) !important; }
+.item.flex-col .title { color: rgba(255,255,255,0.58) !important; }
+.item.flex-col.active .title { color: #34d399 !important; -webkit-text-fill-color: #34d399 !important; }
+.item.flex-col.active .bottomline { background: #34d399 !important; }
+
+/* === PANELS — glass (match istore-theme specificity) === */
+.panel {
+  background: rgba(8,12,22,0.55) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+.panel:hover {
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow: 0 8px 40px -8px rgba(0,0,0,0.25) !important;
+}
+.panel-info { border-color: transparent !important; }
+.panel-info > .panel-heading {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  color: rgba(255,255,255,0.96) !important;
+  background-image: none !important;
+}
+.panel-title { color: rgba(255,255,255,0.96) !important; }
+.panel-body.info-box { background: transparent !important; }
+.info-box { background: transparent !important; }
+
+/* === PC BOX stat cards === */
+.pc_box {
+  background: rgba(8,12,22,0.5) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+.pc_box:hover {
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow: 0 8px 40px -8px rgba(0,0,0,0.25) !important;
+}
+
+/* === CONNECTION BOXES === */
+.stand_net_box {
+  background: rgba(8,12,22,0.45) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18) !important;
+}
+
+/* === STAT VALUES === */
+.speedup_data, .speeddown_data,
+.flowup_data, .flowdown_data,
+.cpu_data, .mem_data {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: rgba(255,255,255,0.96) !important;
+  letter-spacing: -0.03em !important;
+}
+.speedup_unit, .speeddown_unit,
+.flowup_unit, .flowdown_unit {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.58) !important;
+}
+
+/* === TEXT COLORS === */
+.pre_info, .last_info { color: rgba(255,255,255,0.35) !important; }
+.title_info { color: rgba(255,255,255,0.58) !important; }
+.wan_ip, .wan_mask, .wan_uptime, .dnn_ip {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+.status_details, .status_icon { color: rgba(255,255,255,0.35) !important; }
+
+/* === CPE DETAILS === */
+.cpe_band, .cpe_earfcn, .cpe_iccid, .cpe_imei,
+.cpe_mode, .cpe_register, .cpe_signal, .cpe_sim_id {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-size: 10.5px !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* === TEMP === */
+.model_temp, .temp_des { color: rgba(255,255,255,0.58) !important; }
+.rtemp_label { color: rgba(255,255,255,0.35) !important; }
+.cpu_des, .mem_des { color: rgba(255,255,255,0.35) !important; }
+
+/* === COLORS === */
+.connected_color { color: #34d399 !important; }
+.unlinked_color { color: rgba(255,255,255,0.35) !important; }
+.speedflow_box { border-radius: 7px !important; }
+
+/* === BUTTONS (match istore-theme selectors) === */
+.btn, input.cbi-button, div.cbi-page-actions > input.cbi-button,
+div.cbi-page-actions > input.cbi-button-apply, .btn-nradio-apply,
+.btn-nradio-cancel, .btn-nradio-second, .cbi-input-apply {
+  border-radius: 10px !important;
+  transition: all .2s cubic-bezier(.16,1,.3,1) !important;
+}
+.btn, input.cbi-button, div.cbi-page-actions > input.cbi-button-apply,
+.btn-nradio-apply, .cbi-input-apply,
+.cbi-button-save, .cbi-button-positive, .cbi-button-apply {
+  color: #fff !important;
+  border: 1px solid rgba(52,211,153,0.3) !important;
+  background: rgba(52,211,153,0.15) !important;
+}
+.btn:hover, input.cbi-button:hover {
+  background: rgba(52,211,153,0.25) !important;
+  border-color: rgba(52,211,153,0.5) !important;
+  box-shadow: 0 0 20px rgba(52,211,153,0.1) !important;
+}
+.btn:active, input.cbi-button:active { background: rgba(52,211,153,0.08) !important; }
+.btn-nradio-cancel, div.cbi-page-actions > input.cbi-button-cancel,
+.cbi-button-reset, .btn-default {
+  color: rgba(255,255,255,0.58) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.03) !important;
+}
+.btn-nradio-cancel:hover, .btn-default:hover {
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.2) !important;
+  background: rgba(255,255,255,0.06) !important;
+}
+.cbi-button-remove, .cbi-button-negative {
+  color: #fff !important;
+  border-color: rgba(248,113,113,0.3) !important;
+  background: rgba(248,113,113,0.15) !important;
+}
+.cbi-button-remove:hover {
+  background: rgba(248,113,113,0.3) !important;
+  border-color: rgba(248,113,113,0.5) !important;
+}
+
+/* === TABLES === */
+.table-box thead th, .tr.table-titles > .th, .tr.cbi-section-table-titles > .th {
+  background: rgba(255,255,255,0.03) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+.table-box td, table > tbody > tr > td {
+  border-top: 1px solid rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+.table-box table tr { border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+table > tbody > tr:nth-of-type(2n) { background: rgba(255,255,255,0.02) !important; }
+
+/* === FORMS === */
+.form-control, fieldset select, input.cbi-input-text, textarea,
+fieldset input.cbi-input-password, fieldset input.cbi-input-user,
+select, .cbi-dropdown {
+  color: rgba(255,255,255,0.92) !important;
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.form-control:focus, input.cbi-input-text:focus, select:focus {
+  border-color: rgba(52,211,153,0.4) !important;
+  box-shadow: 0 0 0 3px rgba(52,211,153,0.08) !important;
+}
+
+/* === TABS === */
+.nav-tabs > li.active > a, ul.tabs > li.active > a, ul.cbi-tabmenu > li.active > a,
+.nav-tabs > li.cbi-tab > a {
+  color: #34d399 !important;
+  background: rgba(52,211,153,0.08) !important;
+  border-bottom-color: #34d399 !important;
+}
+.nav > li > a, ul.tabs > li > a, ul.cbi-tabmenu > li > a {
+  color: rgba(255,255,255,0.58) !important;
+  background: rgba(255,255,255,0.02) !important;
+  border-bottom-color: transparent !important;
+}
+.nav > li > a:hover {
+  color: #34d399 !important;
+  background: rgba(52,211,153,0.06) !important;
+  border-bottom-color: #34d399 !important;
+}
+
+/* === HEADINGS === */
+h2 {
+  color: rgba(255,255,255,0.96) !important;
+  background: rgba(8,12,22,0.55) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+}
+h2 span { color: rgba(255,255,255,0.96) !important; -webkit-text-fill-color: rgba(255,255,255,0.96) !important; }
+fieldset > legend { color: rgba(255,255,255,0.96) !important; }
+
+/* === MODALS === */
+.modal-content, .bootstrap-dialog .modal-content {
+  background: rgba(8,12,22,0.95) !important;
+  -webkit-backdrop-filter: blur(64px) saturate(200%) !important;
+  backdrop-filter: blur(64px) saturate(200%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 32px 80px -16px rgba(0,0,0,0.45) !important;
+}
+.bootstrap-dialog .modal-header { background: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+.modal-footer { border-top: 1px solid rgba(255,255,255,0.05) !important; }
+.close { color: rgba(255,255,255,0.58) !important; }
+
+/* === FOOTER === */
+.footer, footer {
+  background: transparent !important;
+  border-top: 1px solid rgba(255,255,255,0.05) !important;
+  color: rgba(255,255,255,0.35) !important;
+}
+
+/* === LINKS === */
+a { color: #34d399 !important; }
+a:hover { color: rgba(52,211,153,0.8) !important; }
+
+/* === MISC === */
+.progress-bar { background: #34d399 !important; }
+.sms-badge { background: #f87171 !important; }
+.status-icon.active { background: #34d399 !important; }
+.status-line { background-color: #34d399 !important; }
+.online_note { background-color: #34d399 !important; }
+.offline_note { background-color: rgba(255,255,255,0.12) !important; }
+.icon_color, .key-name-edit { color: #34d399 !important; fill: #34d399 !important; }
+select, .selectPickerWrapper { background: rgba(255,255,255,0.04) !important; color: rgba(255,255,255,0.92) !important; border-color: rgba(255,255,255,0.08) !important; }
+.select-picker-options-wrp { background: rgba(8,12,22,0.95) !important; box-shadow: 0 8px 40px -8px rgba(0,0,0,0.25) !important; }
+pre { background: rgba(255,255,255,0.03) !important; color: rgba(255,255,255,0.92) !important; border-color: rgba(255,255,255,0.05) !important; border-radius: 10px !important; }
+
+/* === DROPDOWN === */
+.sub_icon_list {
+  background: rgba(8,12,22,0.95) !important;
+  -webkit-backdrop-filter: blur(64px) saturate(200%) !important;
+  backdrop-filter: blur(64px) saturate(200%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 40px -8px rgba(0,0,0,0.25) !important;
+}
+.sub_icon_list li { color: rgba(255,255,255,0.92) !important; }
+.sub_icon_list li:hover { background: rgba(52,211,153,0.08) !important; color: #34d399 !important; }
+
+/* === MOBILE === */
+.mobile_bg_color, .mobile_bg_color > .mobile,
+.mobile_bg_color.body-total-first-stand {
+  background: rgba(8,12,22,0.5) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 10px !important;
+}
+.mobile_bg_color.panel { background: rgba(8,12,22,0.55) !important; }
+.mobile_bg_color.panel-info > .panel-heading { background: transparent !important; border-color: rgba(255,255,255,0.05) !important; }
+
+/* === NAV FUNCS === */
+.nav-funcs .func-icon {
+  background: rgba(8,12,22,0.5) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18) !important;
+}
+.nav-funcs .func-icon:hover { border-color: rgba(255,255,255,0.1) !important; }
+.nav-funcs .func-desc { color: rgba(255,255,255,0.58) !important; }
+
+/* === HOME PANEL === */
+.home-panel {
+  background: rgba(8,12,22,0.55) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18) !important;
+}
+
+/* === SPEEDFLOW === */
+.speedflow_combine_box {
+  background: rgba(8,12,22,0.45) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.18) !important;
+}
+
+/* === CBI === */
+.cbi-headmenu { border-bottom-color: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.58) !important; }
+.cbi-headmenu .cbi-item.active { color: #34d399 !important; border-color: #34d399 !important; }
+
+/* === ETH BOX === */
+.eth_box, .data_box {
+  background: rgba(255,255,255,0.02) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: 10px !important;
+}
+.terminal_box_detail { color: rgba(255,255,255,0.58) !important; }
+
+/* === ICONS === */
+.fa-nradio-home, .fa-nradio-internet, .fa-nradio-wifi,
+.fa-nradio-terminal, .fa-nradio-advanced-setting {
+  color: rgba(255,255,255,0.58) !important;
+}
+.item.active .fa-nradio-home, .item.active .fa-nradio-internet,
+.item.active .fa-nradio-wifi, .item.active .fa-nradio-terminal,
+.item.active .fa-nradio-advanced-setting {
+  color: #34d399 !important;
+}
+
+/* === CHECKBOX SWITCH === */
+div.checkbox .cbi-input-checkbox:checked + .switch { background: #34d399 !important; }
+input[type='checkbox'].pgy-switch:checked { background: #34d399 !important; }
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12) !important; }
+
+/* === PRINT === */
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  .panel { background: #fff !important; border: 1px solid #ddd !important; box-shadow: none !important; }
+}

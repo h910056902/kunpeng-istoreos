@@ -1,0 +1,267 @@
+/* ============================================================
+ * iStore Aurora v1 — 鲲鹏无限 (NRadio) iStore 商店视觉覆盖层
+ * 加载顺序: /luci-static/istore/style.css 之后
+ * 设计语言: 与 App Center「aurora v1」一致 (深色玻璃 + 极光渐变)
+ * 安全原则: 只覆盖视觉属性 (颜色/圆角/边框/阴影/模糊)
+ *           不触碰 margin/padding/position/display/width/height
+ * ============================================================ */
+
+:root {
+  --au-bg: #060a14;
+  --au-panel: rgba(255, 255, 255, .045);
+  --au-panel2: rgba(255, 255, 255, .075);
+  --au-line: rgba(255, 255, 255, .09);
+  --au-text: #e8f0fb;
+  --au-muted: #8ea0b8;
+  --au-cyan: #22d3ee;
+  --au-violet: #8b5cf6;
+  --au-pink: #ec4899;
+  --au-green: #34d399;
+  --au-amber: #fbbf24;
+  --au-red: #f87171;
+  --au-grad: linear-gradient(135deg, #22d3ee, #8b5cf6 55%, #ec4899);
+}
+
+/* === 页面底色: 轻微极光氛围 (仅 iStore 页面加载本文件) === */
+html, body {
+  background-color: var(--au-bg) !important;
+  color: var(--au-text) !important;
+}
+body .main .main-content {
+  background:
+    radial-gradient(90% 60% at 0% 0%, rgba(34, 211, 238, .07), transparent 60%),
+    radial-gradient(90% 60% at 100% 0%, rgba(139, 92, 246, .07), transparent 60%) !important;
+}
+
+/* === 页面标题栏 (按真实 DOM: body > .container.body-container > .main > .main-content > h2) === */
+body .main .main-content h2[name="content"],
+body .main-content h2[name="content"] {
+  color: var(--au-text) !important;
+  background: var(--au-panel) !important;
+  border: 1px solid var(--au-line) !important;
+  border-bottom: 1px solid var(--au-line) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .05) !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+}
+body .main-content h2[name="content"] a,
+body .main-content h2[name="content"] a * {
+  color: var(--au-muted) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  font-size: 12px !important;
+}
+body .main-content h2[name="content"] a:hover { color: var(--au-cyan) !important; }
+
+/* === 顶部标签页 (已安装/全部软件/手动安装/维护) === */
+#app .tabs {
+  background: var(--au-panel) !important;
+  border: 1px solid var(--au-line) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .35) !important;
+}
+#app .tabs li a {
+  color: var(--au-muted) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  transition: all .18s ease !important;
+}
+#app .tabs li a:hover {
+  color: var(--au-cyan) !important;
+  background: rgba(34, 211, 238, .06) !important;
+}
+#app .tabs li.active a,
+#app .tabs li.cbi-tab a {
+  color: #eaf9ff !important;
+  background: linear-gradient(135deg, rgba(34, 211, 238, .16), rgba(139, 92, 246, .16)) !important;
+  border-color: rgba(34, 211, 238, .35) !important;
+}
+
+/* === 应用卡片: 玻璃 === */
+#app .app-container {
+  background: var(--au-panel) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  border: 1px solid var(--au-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .04) !important;
+  transition: border-color .2s ease, box-shadow .2s ease !important;
+}
+#app .app-container:hover {
+  border-color: rgba(34, 211, 238, .28) !important;
+  box-shadow: 0 8px 40px -8px rgba(0, 0, 0, .28), 0 0 24px -6px rgba(34, 211, 238, .12) !important;
+}
+
+/* 卡片内分隔与文字 */
+#app .app-container .app-info { border-bottom: 1px solid var(--au-line) !important; }
+#app .app-container .app-title { color: var(--au-text) !important; }
+#app .app-container .app-title .app-version { color: var(--au-muted) !important; }
+#app .app-container .app-tags .tag { color: var(--au-cyan) !important; opacity: .85; }
+#app .app-container .app-tags .block { color: var(--au-muted) !important; }
+#app .app-container .app-as { color: var(--au-muted) !important; }
+#app .app-container .app-as .star-btn { color: var(--au-muted) !important; }
+#app .app-container .app-as .star-btn:hover { color: var(--au-amber) !important; }
+#app .app-container .app-description { color: var(--au-muted) !important; }
+#app .app-container .app-author,
+#app .app-container .app-date { color: rgba(142, 160, 184, .75) !important; }
+#app .app-container .fav-icon-i { color: var(--au-amber) !important; }
+
+/* === 卡片底部操作: 教程 / 打开 / 卸载 === */
+#app .app-container .app-btns a,
+#app .app-container .app-btns .app-btn {
+  color: var(--au-cyan) !important;
+  text-decoration: none !important;
+}
+#app .app-container .app-btns a:hover { color: #7ddffc !important; }
+
+/* === 通用按钮 (cbi-button 家族) === */
+#app .cbi-button {
+  border-radius: 10px !important;
+  transition: all .2s cubic-bezier(.16, 1, .3, 1) !important;
+  text-shadow: none !important;
+}
+#app .cbi-button,
+#app .cbi-button-positive,
+#app .cbi-button-apply,
+#app input.cbi-button-save {
+  color: #fff !important;
+  border: 1px solid rgba(52, 211, 153, .3) !important;
+  background: rgba(52, 211, 153, .15) !important;
+  text-decoration: none !important;
+}
+#app .cbi-button:hover,
+#app .cbi-button-positive:hover {
+  background: rgba(52, 211, 153, .25) !important;
+  border-color: rgba(52, 211, 153, .5) !important;
+  box-shadow: 0 0 20px rgba(52, 211, 153, .1) !important;
+}
+#app .cbi-button-remove,
+#app .cbi-button-negative {
+  color: #fff !important;
+  border-color: rgba(248, 113, 113, .3) !important;
+  background: rgba(248, 113, 113, .15) !important;
+}
+#app .cbi-button-remove:hover {
+  background: rgba(248, 113, 113, .3) !important;
+  border-color: rgba(248, 113, 113, .5) !important;
+}
+/* 分类/标签筛选 chips */
+#app .sort-container .cbi-button,
+#app .tags-container .cbi-button {
+  color: var(--au-muted) !important;
+  background: var(--au-panel) !important;
+  border: 1px solid var(--au-line) !important;
+  border-radius: 999px !important;
+}
+#app .sort-container .cbi-button:hover,
+#app .tags-container .cbi-button:hover {
+  color: var(--au-cyan) !important;
+  border-color: rgba(34, 211, 238, .35) !important;
+}
+#app .sort-container .cbi-button.positive,
+#app .tags-container .cbi-button.positive,
+#app .sort-container input.cbi-button[type=submit].active {
+  color: #eaf9ff !important;
+  background: linear-gradient(135deg, rgba(34, 211, 238, .16), rgba(139, 92, 246, .16)) !important;
+  border-color: rgba(34, 211, 238, .35) !important;
+}
+
+/* === 搜索框 === */
+#app form.search input {
+  color: var(--au-text) !important;
+  background: var(--au-panel) !important;
+  border: 1px solid var(--au-line) !important;
+  box-shadow: none !important;
+}
+#app form.search input::placeholder { color: rgba(142, 160, 184, .6) !important; }
+#app form.search input:focus {
+  border-color: rgba(34, 211, 238, .4) !important;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, .08) !important;
+}
+#app form.search .search-btn { color: var(--au-muted) !important; }
+
+/* === 维护 / 上传 / 日志等面板 === */
+#app .cbi-section {
+  background: var(--au-panel) !important;
+  border: 1px solid var(--au-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, .18) !important;
+}
+#app .cbi-value { color: var(--au-text) !important; }
+#app em { border-bottom-color: var(--au-line) !important; }
+#app .log-containers .containers-tit { color: var(--au-text) !important; }
+#app .Lightweight-tit span,
+#app .local-tit span { color: var(--au-text) !important; }
+#app .upload-file {
+  background: var(--au-grad) !important;
+  border-radius: 12px !important;
+}
+#app .upload-button { background: var(--au-grad) !important; }
+
+/* === 下拉/输入 === */
+#app select,
+#app input[type=text],
+#app input[type=tel] {
+  color: var(--au-text) !important;
+  background: rgba(255, 255, 255, .04) !important;
+  border: 1px solid var(--au-line) !important;
+  border-radius: 10px !important;
+}
+
+/* === 弹窗 (快速安装对话框等) === */
+#app .quickinstalled-dialog_bg { background: #000 !important; opacity: .5 !important; }
+#app .quickinstalled-dialog_main {
+  background: rgba(8, 12, 22, .96) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, .08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 32px 80px -16px rgba(0, 0, 0, .45) !important;
+}
+#app .quickinstalled-dialog_main-header { border-bottom: 1px solid var(--au-line) !important; }
+#app .quickinstalled-dialog_main-header > span { color: var(--au-text) !important; }
+#app .quickinstalled-dialog_main-footer { border-top: 1px solid var(--au-line) !important; }
+#app .quickinstalled-dialog_main-footer button.close {
+  color: var(--au-muted) !important;
+  background: rgba(255, 255, 255, .04) !important;
+  border: 1px solid var(--au-line) !important;
+}
+#app .quickinstalled-dialog_main-footer button.submit {
+  color: #fff !important;
+  background: rgba(52, 211, 153, .25) !important;
+  border: 1px solid rgba(52, 211, 153, .4) !important;
+}
+#app .quickinstalled-dialog_main .label-item_label,
+#app .quickinstalled-dialog_main .label-item_radio span { color: var(--au-text) !important; }
+#app .quickinstalled-dialog_main input[type=text] {
+  color: var(--au-text) !important;
+  background: rgba(255, 255, 255, .04) !important;
+  border: 1px solid var(--au-line) !important;
+}
+
+/* === Loading / Toast === */
+#app .loading,
+#app .toast {
+  background: rgba(8, 12, 22, .92) !important;
+  border: 1px solid rgba(255, 255, 255, .08) !important;
+  box-shadow: 0 16px 48px -8px rgba(0, 0, 0, .4) !important;
+}
+#app .loading .icon { border-top-color: var(--au-cyan) !important; border-left-color: var(--au-cyan) !important; }
+
+/* === 链接与滚动条 === */
+#app a { color: var(--au-cyan) !important; }
+#app a:hover { color: #7ddffc !important; }
+#app ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .12) !important;
+  border-radius: 999px !important;
+}
+#app ::-webkit-scrollbar-track { background: transparent !important; }
+
+/* === 打印还原 === */
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  body .main-content { background: none !important; }
+  #app .app-container { background: #fff !important; border: 1px solid #ddd !important; box-shadow: none !important; }
+}
